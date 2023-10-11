@@ -2,10 +2,10 @@ import Config
 
 # Configure your database
 config :bamboo_interview, BambooInterview.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "bamboo_interview_dev",
+  username: System.get_env("DB_USERNAME"),
+  password: System.get_env("DB_PASSWORD"),
+  hostname: System.get_env("DB_HOSTNAME"),
+  database: System.get_env("DATABASE"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

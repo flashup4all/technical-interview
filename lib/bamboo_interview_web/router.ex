@@ -14,12 +14,26 @@ defmodule BambooInterviewWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug BambooInterviewWeb.Plug.AuthAccessPipeline
+  end
+
   scope "/", BambooInterviewWeb do
     pipe_through :browser
 
     get "/", PageController, :home
   end
 
+  scope "/api", BambooInterviewWeb do
+    pipe_through :api
+    resources "/users", UserController
+    resources "/company_categories", CompanyCategoriesController, except: [:new, :edit]
+    scope "/" do
+      pipe_through :auth
+
+      # resources "/company_categories", CompanyCategoriesController, except: [:new, :edit]
+    end
+  end
   # Other scopes may use custom stacks.
   # scope "/api", BambooInterviewWeb do
   #   pipe_through :api

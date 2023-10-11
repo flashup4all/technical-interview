@@ -49,7 +49,15 @@ defmodule BambooInterview.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:argon2_elixir, "~> 3.0"},
+      {:comeonin, "~> 5.0"},
+      {:ecto_enum, "~> 1.3"},
+      {:guardian, "~> 2.3.0"},
+      # Dev and test dependencies.
+      {:faker, "~> 0.17", only: [:dev, :test]},
+      {:mox, "~> 1.0.2", only: [:dev, :test]},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]
   end
 

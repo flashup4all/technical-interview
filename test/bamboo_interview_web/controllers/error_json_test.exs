@@ -2,7 +2,9 @@ defmodule BambooInterviewWeb.ErrorJSONTest do
   use BambooInterviewWeb.ConnCase, async: true
 
   test "renders 404" do
-    assert BambooInterviewWeb.ErrorJSON.render("404.json", %{}) == %{errors: %{detail: "Not Found"}}
+    assert BambooInterviewWeb.ErrorJSON.render("404.json", %{}) == %{
+             errors: %{detail: "Not Found"}
+           }
   end
 
   test "renders 500" do

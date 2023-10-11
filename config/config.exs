@@ -8,7 +8,12 @@
 import Config
 
 config :bamboo_interview,
-  ecto_repos: [BambooInterview.Repo]
+  ecto_repos: [BambooInterview.Repo],
+  generators: [binary_id: true]
+
+config :bamboo_interview, BambooInterview.Repo,
+  migration_primary_key: [type: :binary_id, autogenerate: false],
+  migration_timestamps: [type: :utc_datetime_usec]
 
 # Configures the endpoint
 config :bamboo_interview, BambooInterviewWeb.Endpoint,
@@ -19,6 +24,10 @@ config :bamboo_interview, BambooInterviewWeb.Endpoint,
   ],
   pubsub_server: BambooInterview.PubSub,
   live_view: [signing_salt: "n1V1gq4H"]
+
+# default app env paramers
+config :bamboo_interview,
+  web_endpoint: System.get_env("WEB_ENDPOINT") || "http://localhost:3000"
 
 # Configures the mailer
 #
