@@ -3,10 +3,16 @@ defmodule BambooInterview.Accounts do
   alias BambooInterviewWeb.Validators.User, as: UserValidator
   alias BambooInterview.Accounts.User
   alias BambooInterviewWeb.Auth.Guardian
+  alias BambooInterview.EmailService
 
   def create_user_account(%UserValidator{} = params) do
     with {:ok, %User{} = user} <- User.create_user(Map.from_struct(params)) do
-      # setup oban job to send trigger send verification email
+      # setup oban job or Task.start to send trigger send welcome email
+      # this will ensure there is no delays in the user process 
+      # since it will run on the background
+      Task.start(fn ->
+        EmailService.deliver_welcome_email(user)
+      end)
       {:ok, user}
     else
       {:error, error} -> {:error, error}

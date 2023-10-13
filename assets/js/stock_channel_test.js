@@ -13,8 +13,6 @@ let StockChannelTest = {
     },
 
     listenForPushes(channel) {
-   
-        // channel.push(`get_conversation_online_status`, {conversation_id: conversation_id})
         channel.on(`new_category_stock`, payload => {
           console.log("new order here", payload)
         })

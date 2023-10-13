@@ -1,7 +1,6 @@
 defmodule BambooInterview.Stocks.Stock do
   use BambooInterview.Schema
   alias BambooInterview.Repo
-  import Ecto.Query
 
   alias BambooInterview.Stocks.CompanyCategories
   import BambooInterview.Utils.DynamicFilter
@@ -39,12 +38,6 @@ defmodule BambooInterview.Stocks.Stock do
       [%__MODULE__{}, ...]
 
   """
-
-  # def list_stocks(category_id) do
-  #   query = __MODULE__ 
-  #   |> where([stock], stock.company_category_id == ^category_id)
-  #   Repo.all(query)
-  # end
 
   def list_stocks(query_params) do
     query =

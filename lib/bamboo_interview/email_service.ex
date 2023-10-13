@@ -7,22 +7,17 @@ defmodule BambooInterview.EmailService do
     |> from({"Bamboo", "lucky@bamboo.com"})
   end
 
-  def deliver_email_verification(payload) do
+  def deliver_welcome_email(user) do
     web_endpoint = Application.fetch_env!(:bamboo_interview, :web_endpoint)
-
-    to_email = payload["email"]
-    hashed_token = payload["hashed_token"]
-    first_name = payload["first_name"]
-    # ensure you implement the verification endpoint
-    email_verification_url =
-      "#{web_endpoint}/account/verification/#{hashed_token}/#{Base.url_encode64(to_email, padding: false)}"
+    url =
+      "#{web_endpoint}"
 
     base_email()
-    |> to({first_name, to_email})
+    |> to({user.first_name, user.email})
     |> subject("Our New Listed Stock")
-    |> html_body("<h1>Hello #{first_name}</h1>")
+    |> html_body("<h1>Hello #{user.first_name}</h1>")
     |> text_body(
-      "Welcome to Bamboo\n Please verify your account by clicking the button below \n <a href=#{email_verification_url}>Click here</a>"
+      "Welcome to Bamboo\n Welcome to Bamboo Interview, visit your account by clicking the button below \n <a href=#{url}>Click here</a>"
     )
 
     :ok

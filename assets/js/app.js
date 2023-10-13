@@ -21,7 +21,6 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
-// import "./user_socket.js"
 import socket from "./user_socket.js"
 import StockChannelTest from "./stock_channel_test"
 
