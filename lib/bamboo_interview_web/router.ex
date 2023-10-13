@@ -32,7 +32,7 @@ defmodule BambooInterviewWeb.Router do
 
     scope "/" do
       pipe_through :auth
-      resources "/users", UserController
+      get "/users/:id", UserController, :show
       resources "/company-categories", CompanyCategoriesController, except: [:new, :edit]
       get "/categories/stocks", StockController, :index
       resources "/categories/:category_id/stocks", StockController, except: [:new, :edit]
