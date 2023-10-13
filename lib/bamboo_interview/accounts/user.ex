@@ -90,15 +90,14 @@ defmodule BambooInterview.Accounts.User do
   end
 
   def get_users_by_stock_category(stock) do
-    query =
-      __MODULE__
-      |> join(:inner, [user], user_category in UserStockCategory,
-        on: user.id == user_category.user_id
-      )
-      |> where(
-        [user, user_category],
-        user_category.company_category_id == ^stock.company_category_id
-      )
-      |> Repo.all()
+    __MODULE__
+    |> join(:inner, [user], user_category in UserStockCategory,
+      on: user.id == user_category.user_id
+    )
+    |> where(
+      [user, user_category],
+      user_category.company_category_id == ^stock.company_category_id
+    )
+    |> Repo.all()
   end
 end

@@ -7,11 +7,6 @@ defmodule BambooInterviewWeb.StockController do
 
   action_fallback BambooInterviewWeb.FallbackController
 
-  # def index(conn, %{"category_id" => category_id}) do
-  #   stocks = Stocks.list_stocks(category_id)
-  #   render(conn, :index, stocks: stocks)
-  # end
-
   def index(conn, params) do
     with {:ok, validated_params} <- StockValidator.query_params_cast_and_validate(params),
          stocks <- Stocks.list_stocks(validated_params) do

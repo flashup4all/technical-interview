@@ -32,6 +32,7 @@ defmodule BambooInterview.Stocks.Stock do
 
   @doc """
   Returns the list of stocks.
+  You can also filter the data based on specified params
 
   ## Examples
 

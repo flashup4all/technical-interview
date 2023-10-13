@@ -17,12 +17,11 @@ defmodule BambooInterview.Events.CreateStocksCronJob do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
-  
-    @doc """
-      Enable Phoenix.Pubsub.subscribe to listen from stocks gateway for newly listed stocks
-      enable cron job to periodically call stocks api to check for newly added stocks
-    """
-    @impl true
+  @doc """
+    Enable Phoenix.Pubsub.subscribe to listen from stocks gateway for newly listed stocks
+    enable cron job to periodically call stocks api to check for newly added stocks
+  """
+  @impl true
   def init(_opts) do
     Phoenix.PubSub.subscribe(BambooInterview.PubSub, "newly_listed_stocks")
 
@@ -31,10 +30,10 @@ defmodule BambooInterview.Events.CreateStocksCronJob do
   end
 
   @doc """
-      check  stock api to see if there is new listed stocks 
-      Schedule cron job to call stocks api at specific intervals
-      to check for newly listed stocks
-    """
+    check  stock api to see if there is new listed stocks 
+    Schedule cron job to call stocks api at specific intervals
+    to check for newly listed stocks
+  """
   def handle_info(:check_stock_gateway, state) do
     BambooInterview.Stocks.get_newly_listed_stocks()
 
@@ -49,8 +48,8 @@ defmodule BambooInterview.Events.CreateStocksCronJob do
   end
 
   @doc """
-      process newly added stocks returned from the stocks gateway
-    """
+    process newly added stocks returned from the stocks gateway
+  """
   @impl true
   def handle_info(new_stocks, state) when new_stocks != [] do
     Enum.each(new_stocks, &setup_new_stock(&1))
@@ -59,13 +58,14 @@ defmodule BambooInterview.Events.CreateStocksCronJob do
   end
 
   @doc """
-      cron job timer to run every hour
-    """
-  def cron_job_schedule_timer(), do: Process.send_after(self(), :check_stock_gateway, :timer.hours(1))
+    cron job timer to run every hour
+  """
+  def cron_job_schedule_timer(),
+    do: Process.send_after(self(), :check_stock_gateway, :timer.hours(1))
 
   @doc """
-      Validate and store the newly added stock in our db
-    """
+    Validate and store the newly added stock in our db
+  """
   def setup_new_stock(new_stock) do
     {:ok, category} =
       BambooInterview.Stocks.CompanyCategories.get_or_create(new_stock["category"])

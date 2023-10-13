@@ -13,6 +13,7 @@ defmodule BambooInterview.Accounts do
       Task.start(fn ->
         EmailService.deliver_welcome_email(user)
       end)
+
       {:ok, user}
     else
       {:error, error} -> {:error, error}

@@ -9,8 +9,7 @@ defmodule BambooInterview.EmailService do
 
   def deliver_welcome_email(user) do
     web_endpoint = Application.fetch_env!(:bamboo_interview, :web_endpoint)
-    url =
-      "#{web_endpoint}"
+    url = "#{web_endpoint}"
 
     base_email()
     |> to({user.first_name, user.email})
