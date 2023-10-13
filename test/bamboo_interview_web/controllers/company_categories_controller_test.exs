@@ -27,7 +27,7 @@ defmodule BambooInterviewWeb.CompanyCategoriesControllerTest do
 
   describe "index/2" do
     test "lists all company categories", %{conn_with_token: conn} do
-      Enum.map([1, 2, 3, 4], fn _count -> company_categories_fixture() end)
+      Enum.map(1..4, fn _count -> company_categories_fixture() end)
       conn = get(conn, ~p"/api/company-categories")
       data = json_response(conn, 200)["data"]
       assert !is_nil(data)

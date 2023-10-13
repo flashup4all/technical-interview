@@ -45,7 +45,7 @@ defmodule BambooInterviewWeb.UserControllerTest do
 
   describe "show/2" do
     test "renders user data when given valid user id", %{conn_with_token: conn, user: user} do
-      Enum.map([1, 2, 3, 4], fn _count -> users_fixture() end)
+      Enum.map(1..4, fn _count -> users_fixture() end)
 
       conn = get(conn, ~p"/api/users/#{user.id}")
       data = json_response(conn, 200)["data"]

@@ -39,9 +39,9 @@ defmodule BambooInterviewWeb.StockControllerTest do
 
     test "lists company category all stocks", %{conn_with_token: conn} do
       category = company_categories_fixture()
-      stocks = Enum.map([1, 2, 3, 4], fn _count -> stock_fixture(category) end)
+      stocks = Enum.map(1..4, fn _count -> stock_fixture(category) end)
       decoy_category = company_categories_fixture()
-      _decoy_stocks = Enum.map([1, 2, 3, 4], fn _count -> stock_fixture(decoy_category) end)
+      _decoy_stocks = Enum.map(1..4, fn _count -> stock_fixture(decoy_category) end)
       inserted_stocks_ids = Enum.map(stocks, & &1.id)
 
       conn = get(conn, ~p"/api/categories/#{category.id}/stocks")
@@ -56,13 +56,26 @@ defmodule BambooInterviewWeb.StockControllerTest do
 
     test "lists all stocks", %{conn_with_token: conn} do
       category = company_categories_fixture()
-      Enum.map([1, 2, 3, 4], fn _count -> stock_fixture(category) end)
+      Enum.map(1..4, fn _count -> stock_fixture(category) end)
       decoy_category = company_categories_fixture()
-      _decoy_stocks = Enum.map([1, 2, 3, 4], fn _count -> stock_fixture(decoy_category) end)
+      _decoy_stocks = Enum.map(1..4, fn _count -> stock_fixture(decoy_category) end)
 
       conn = get(conn, ~p"/api/categories/stocks")
       assert returned_response = json_response(conn, 200)["data"]
       assert length(returned_response) == 8
+    end
+
+    test "lists all stocks by their stock_exchange_type", %{conn_with_token: conn} do
+      category = company_categories_fixture()
+      Enum.map(1..4, fn _count -> stock_fixture(category) end)
+      decoy_category = company_categories_fixture()
+      _decoy_stocks = Enum.map(1..4, fn _count -> stock_fixture(decoy_category) end)
+
+      conn = get(conn, ~p"/api/categories/stocks?stock_exchange_type=NASDAQ")
+      assert returned_response = json_response(conn, 200)["data"]
+      for stock <- returned_response do
+        assert stock["stock_exchange_type"] == "NASDAQ"
+      end
     end
   end
 

@@ -24,7 +24,7 @@ defmodule BambooInterview.UserTest do
 
   describe "get/1" do
     test "success: get user with valid user_id" do
-      [user | _] = Enum.map([1, 2, 3, 4], fn _count -> users_fixture() end)
+      [user | _] = Enum.map(1..4, fn _count -> users_fixture() end)
 
       assert {:ok, %User{} = returned_user} = User.get_user(user.id)
 
@@ -32,7 +32,7 @@ defmodule BambooInterview.UserTest do
     end
 
     test "error: return not_found error when given a non_existent  user_id" do
-      Enum.map([1, 2, 3, 4], fn _count -> users_fixture() end)
+      Enum.map(1..4, fn _count -> users_fixture() end)
       non_existent_id = Ecto.UUID.generate()
       assert {:error, :not_found} = User.get_user(non_existent_id)
     end
@@ -40,7 +40,7 @@ defmodule BambooInterview.UserTest do
 
   describe "get_user_by_email/1" do
     test "success: get user with valid user_id" do
-      [user | _] = Enum.map([1, 2, 3, 4], fn _count -> users_fixture() end)
+      [user | _] = Enum.map(1..4, fn _count -> users_fixture() end)
 
       assert {:ok, %User{} = returned_user} = User.get_user_by_email(user.email)
 
@@ -48,7 +48,7 @@ defmodule BambooInterview.UserTest do
     end
 
     test "error: return not_found error when given a non_existent email" do
-      Enum.map([1, 2, 3, 4], fn _count -> users_fixture() end)
+      Enum.map(1..4, fn _count -> users_fixture() end)
       non_existent_email = Faker.Internet.email()
       assert {:error, :not_found} = User.get_user_by_email(non_existent_email)
     end
