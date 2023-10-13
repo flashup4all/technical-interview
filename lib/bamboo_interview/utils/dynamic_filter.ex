@@ -1,6 +1,8 @@
 defmodule BambooInterview.Utils.DynamicFilter do
   @moduledoc """
     This module dynamic ecto query filter
+    It can be used to expand queries
+    more cases can be added eg. `like`, `ilike`, `assoc` etc
   """
   import Ecto.Query, warn: false
 
