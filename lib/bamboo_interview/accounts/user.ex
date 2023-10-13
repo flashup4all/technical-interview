@@ -66,17 +66,6 @@ defmodule BambooInterview.Accounts.User do
     end
   end
 
-  @doc """
-  Creates a user.
-
-  ## Examples
-
-    iex> create_user(%{field: value})
-    {:ok, %User{}}
-
-    iex> create_user(%{field: bad_value})
-    {:error, %Ecto.Changeset{}}
-  """
   def create_user(params) do
     changeset(params)
     |> Repo.insert()
