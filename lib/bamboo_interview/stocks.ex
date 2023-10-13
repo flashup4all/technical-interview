@@ -13,13 +13,7 @@ defmodule BambooInterview.Stocks do
   alias BambooInterview.EmailService
 
   def create_company_category(%CompanyCategoryValidator{} = params) do
-    with {:ok, %CompanyCategories{} = company_category} <-
-           CompanyCategories.create_company_categories(Map.from_struct(params)) do
-      {:ok, company_category}
-    else
-      {:error, error} -> {:error, error}
-      error -> {:error, error}
-    end
+    CompanyCategories.create_company_categories(Map.from_struct(params))
   end
 
   def get_company_category(id) do

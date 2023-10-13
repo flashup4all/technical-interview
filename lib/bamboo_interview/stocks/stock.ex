@@ -1,4 +1,5 @@
 defmodule BambooInterview.Stocks.Stock do
+  @moduledoc false
   use BambooInterview.Schema
   alias BambooInterview.Repo
 

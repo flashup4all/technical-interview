@@ -1,4 +1,5 @@
 defmodule BambooInterview.Events.CreateStocksCronJob do
+  @moduledoc false
   use GenServer
   alias BambooInterviewWeb.Validators.Stock, as: StockValidator
   require Logger
@@ -12,7 +13,7 @@ defmodule BambooInterview.Events.CreateStocksCronJob do
   def init(_opts) do
     # enable Pubsub.subscribe to listen from stocks gateway Pubsub for newly listed stocks
     Phoenix.PubSub.subscribe(BambooInterview.PubSub, "newly_listed_stocks")
-    
+
     # enable cron jon to always call stocks api
     cron_job_schedule_timer()
     {:ok, nil}

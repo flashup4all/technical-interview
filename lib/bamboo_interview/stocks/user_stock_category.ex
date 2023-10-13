@@ -1,7 +1,7 @@
 defmodule BambooInterview.Stocks.UserStockCategory do
+  @moduledoc false
   use BambooInterview.Schema
   alias BambooInterview.Repo
-  import Ecto.Query
 
   alias BambooInterview.Stocks.CompanyCategories
 
