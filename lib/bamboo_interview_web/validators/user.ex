@@ -24,4 +24,11 @@ defmodule BambooInterviewWeb.Validators.User do
     |> validate_required(@required_fields)
     |> apply_changes_if_valid()
   end
+
+  def cast_and_validate_auth_params(params) do
+    %__MODULE__{}
+    |> cast(params, @cast_fields)
+    |> validate_required([:email, :password])
+    |> apply_changes_if_valid()
+  end
 end

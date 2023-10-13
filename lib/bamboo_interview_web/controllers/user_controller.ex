@@ -17,10 +17,20 @@ defmodule BambooInterviewWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-   with {:ok, user} <- Accounts.get_user(id) do
-    conn
-    |> put_status(200)
-    |> render(:show, user: user)
-   end
+    with {:ok, user} <- Accounts.get_user(id) do
+      conn
+      |> put_status(200)
+      |> render(:show, user: user)
+    end
+  end
+
+  def login(conn, params) do
+    with {:ok, validated_params} <- UserValidator.cast_and_validate_auth_params(params),
+         {:ok, %{user: user, token: token}} <-
+           Accounts.authenticate(validated_params.email, validated_params.password) do
+      conn
+      |> put_status(200)
+      |> render(:auth, user: user, token: token)
+    end
   end
 end

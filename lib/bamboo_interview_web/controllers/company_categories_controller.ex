@@ -14,7 +14,8 @@ defmodule BambooInterviewWeb.CompanyCategoriesController do
 
   def create(conn, params) do
     with {:ok, validated_params} <- CompanyCategoryValidator.cast_and_validate(params),
-    {:ok, %CompanyCategories{} = company_categories} <- Stocks.create_company_category(validated_params) do
+         {:ok, %CompanyCategories{} = company_categories} <-
+           Stocks.create_company_category(validated_params) do
       conn
       |> put_status(:created)
       |> render(:show, company_categories: company_categories)
@@ -24,12 +25,13 @@ defmodule BambooInterviewWeb.CompanyCategoriesController do
   def show(conn, %{"id" => id}) do
     with {:ok, company_categories} <- Stocks.get_company_category(id) do
       render(conn, :show, company_categories: company_categories)
-     end
+    end
   end
 
   def update(conn, %{"id" => id} = params) do
     with {:ok, validated_params} <- CompanyCategoryValidator.cast_and_validate(params),
-    {:ok, %CompanyCategories{} = company_categories} <- Stocks.update_company_category(id, validated_params) do
+         {:ok, %CompanyCategories{} = company_categories} <-
+           Stocks.update_company_category(id, validated_params) do
       render(conn, :show, company_categories: company_categories)
     end
   end

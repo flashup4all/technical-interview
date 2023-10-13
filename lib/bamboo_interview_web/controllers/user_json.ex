@@ -15,6 +15,10 @@ defmodule BambooInterviewWeb.UserJSON do
     %{data: data(user)}
   end
 
+  def auth(%{user: user, token: token}) do
+    %{data: data(user), token: token}
+  end
+
   @doc """
   Renders a token.
   """

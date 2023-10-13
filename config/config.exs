@@ -25,6 +25,14 @@ config :bamboo_interview, BambooInterviewWeb.Endpoint,
   pubsub_server: BambooInterview.PubSub,
   live_view: [signing_salt: "n1V1gq4H"]
 
+config :bamboo_interview, BambooInterviewWeb.Auth.Guardian,
+  issuer: "apporte",
+  secret_key: "+Dk0RjCbKxetLhvOD1CQjY02pgvCgzzy22WXYi2Cwtk3iXEngBWGmTo0RbsNH/v+"
+
+config :bamboo_interview, BambooInterviewWeb.Plug.AuthAccessPipeline,
+  module: BambooInterviewWeb.Auth.Guardian,
+  error_handler: BambooInterviewWeb.Auth.AuthErrorHandler
+
 # default app env paramers
 config :bamboo_interview,
   web_endpoint: System.get_env("WEB_ENDPOINT") || "http://localhost:3000"

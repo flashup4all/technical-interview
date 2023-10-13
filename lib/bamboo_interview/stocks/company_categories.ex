@@ -1,6 +1,9 @@
 defmodule BambooInterview.Stocks.CompanyCategories do
   use BambooInterview.Schema
+  import Ecto.Query
   alias BambooInterview.Repo
+
+  @type t :: %__MODULE__{}
 
   schema "company_categories" do
     field :description, :string
@@ -38,6 +41,15 @@ defmodule BambooInterview.Stocks.CompanyCategories do
     |> Repo.insert()
   end
 
+  def get_or_create(category_name) do
+    query = __MODULE__ |> where([category], category.name == ^category_name)
+
+    case Repo.one(query) do
+      nil -> create_company_categories(%{name: category_name})
+      category -> {:ok, category}
+    end
+  end
+
   @doc """
   Gets a single company_categories.
 
@@ -54,7 +66,7 @@ defmodule BambooInterview.Stocks.CompanyCategories do
   """
   def get_company_categories(id) do
     case Repo.get(__MODULE__, id) do
-      %__MODULE__{} = user -> {:ok, user}
+      %__MODULE__{} = category -> {:ok, category}
       nil -> {:error, :not_found}
     end
   end
@@ -71,7 +83,6 @@ defmodule BambooInterview.Stocks.CompanyCategories do
   def list_company_categories do
     Repo.all(__MODULE__)
   end
-
 
   @doc """
   Updates a company_categories.

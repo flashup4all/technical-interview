@@ -19,7 +19,8 @@ defmodule BambooInterview.UserFixtures do
         password: valid_password()
       })
       |> BambooInterview.Accounts.User.create_user()
-      user
+
+    user
   end
 
   def user_validator do

@@ -17,14 +17,14 @@ defmodule BambooInterview.AccountsTest do
     end
 
     test "success: returns validation error when trying to create a user account when given invalid params" do
-        user_validated_params = %{user_validator() | email: nil}
-        assert {:error, %Ecto.Changeset{}} = Accounts.create_user_account(user_validated_params)
-      end
+      user_validated_params = %{user_validator() | email: nil}
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_user_account(user_validated_params)
+    end
   end
 
   describe "get_user/1" do
     test "success: gets a user account when given valid id" do
-        [user | _] = Enum.map([1, 2, 3, 4], fn _count -> users_fixture() end)
+      [user | _] = Enum.map([1, 2, 3, 4], fn _count -> users_fixture() end)
 
       assert {:ok, %User{} = returned_user} = Accounts.get_user(user.id)
 
@@ -33,10 +33,32 @@ defmodule BambooInterview.AccountsTest do
     end
 
     test "success: returns validation error when trying to create a user account when given invalid params" do
-        Enum.map([1, 2, 3, 4], fn _count -> users_fixture() end)
-        non_existent_id = Ecto.UUID.generate()
+      Enum.map([1, 2, 3, 4], fn _count -> users_fixture() end)
+      non_existent_id = Ecto.UUID.generate()
 
-        assert {:error, :not_found} = Accounts.get_user(non_existent_id)
-      end
+      assert {:error, :not_found} = Accounts.get_user(non_existent_id)
+    end
+  end
+
+  describe "login/2" do
+    test "success: authenticated a user account when given valid auth credentials" do
+      user_validated_params = user_validator()
+
+      assert {:ok, %User{} = _returned_user} = Accounts.create_user_account(user_validated_params)
+
+      assert {:ok, %{user: auth_user, token: _token}} =
+               Accounts.authenticate(user_validated_params.email, user_validated_params.password)
+
+      assert auth_user.email == user_validated_params.email
+    end
+
+    test "error: return error when given invalid auth credentials" do
+      user_validated_params = user_validator()
+
+      assert {:ok, %User{} = _returned_user} = Accounts.create_user_account(user_validated_params)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Accounts.authenticate(user_validated_params.email, "1212#")
+    end
   end
 end

@@ -17,9 +17,12 @@ defmodule BambooInterview.Application do
       # Start Finch
       {Finch, name: BambooInterview.Finch},
       # Start the Endpoint (http/https)
-      BambooInterviewWeb.Endpoint
+      BambooInterviewWeb.Endpoint,
       # Start a worker by calling: BambooInterview.Worker.start_link(arg)
       # {BambooInterview.Worker, arg}
+      # Start a worker by calling: BambooInterview.Events.CreateStocksCronJob.start_link()
+      # {Bamboo.Worker, arg}
+      BambooInterview.Events.CreateStocksCronJob
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

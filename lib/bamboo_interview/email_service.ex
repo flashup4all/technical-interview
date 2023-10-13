@@ -28,23 +28,17 @@ defmodule BambooInterview.EmailService do
     :ok
   end
 
-  def deliver_listed_stock_email(payload) do
+  def deliver_new_listed_stock_email(user, stock) do
     web_endpoint = Application.fetch_env!(:bamboo_interview, :web_endpoint)
 
-    to_email = payload["email"]
-    first_name = payload["first_name"]
-    stock_name = payload["stock_name"]
-    stock_symbol = payload["stock_symbol"]
-    stock_address = payload["stock_address"]
-    stock_country = payload["stock_country"]
     stock_url = "#{web_endpoint}/view-stock"
 
     base_email()
-    |> to({first_name, to_email})
+    |> to({user.first_name, user.email})
     |> subject("Our New Listed Stock")
-    |> html_body("<h1>Hello #{first_name}</h1>")
+    |> html_body("<h1>Hello #{user.first_name}</h1>")
     |> text_body(
-      "Company name #{stock_name}\n Company symbol #{stock_symbol}\n Company address #{stock_address}\n Country #{stock_country}\n click <a href=#{stock_url}>here</a> to view the listing"
+      "Company name #{stock.name}\n Company symbol #{stock.symbol}\n Country #{stock.country}\n click <a href=#{stock_url}>here</a> to view the listing"
     )
 
     :ok

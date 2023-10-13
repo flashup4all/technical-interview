@@ -2,6 +2,8 @@ defmodule BambooInterview.Accounts.User do
   @moduledoc false
   use BambooInterview.Schema
   alias BambooInterview.Repo
+  import Ecto.Query
+  alias BambooInterview.Stocks.UserStockCategory
 
   @type t :: %__MODULE__{}
 
@@ -16,6 +18,10 @@ defmodule BambooInterview.Accounts.User do
     field :password_hash, :binary
     field :is_active, :boolean, default: true
     field :deleted_at, :utc_datetime_usec
+
+    many_to_many :category, BambooInterview.Stocks.CompanyCategories,
+      join_through: BambooInterview.Stocks.UserStockCategory,
+      on_replace: :delete
 
     timestamps()
   end
@@ -81,5 +87,29 @@ defmodule BambooInterview.Accounts.User do
       %__MODULE__{} = user -> {:ok, user}
       nil -> {:error, :not_found}
     end
+  end
+
+  def get_user_by_email(email) do
+    case Repo.get_by(__MODULE__, email: email) do
+      %__MODULE__{} = user -> {:ok, user}
+      nil -> {:error, :not_found}
+    end
+  end
+
+  def verify_password(%__MODULE__{} = user, password) do
+    Argon2.verify_pass(password, user.password_hash)
+  end
+
+  def get_users_by_stock_category(stock) do
+    query =
+      __MODULE__
+      |> join(:inner, [user], user_category in UserStockCategory,
+        on: user.id == user_category.user_id
+      )
+      |> where(
+        [user, user_category],
+        user_category.company_category_id == ^stock.company_category_id
+      )
+      |> Repo.all()
   end
 end

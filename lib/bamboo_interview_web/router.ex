@@ -24,20 +24,21 @@ defmodule BambooInterviewWeb.Router do
     get "/", PageController, :home
   end
 
+  # Other scopes may use custom stacks.
   scope "/api", BambooInterviewWeb do
     pipe_through :api
-    resources "/users", UserController
-    resources "/company_categories", CompanyCategoriesController, except: [:new, :edit]
+    post "/auth/login", UserController, :login
+    post "/users", UserController, :create
+
     scope "/" do
       pipe_through :auth
-
-      # resources "/company_categories", CompanyCategoriesController, except: [:new, :edit]
+      resources "/users", UserController
+      resources "/company-categories", CompanyCategoriesController, except: [:new, :edit]
+      get "/categories/stocks", StockController, :index
+      resources "/categories/:category_id/stocks", StockController, except: [:new, :edit]
+      resources "/user-stock-categories", UserStockCategoryController, except: [:new, :edit]
     end
   end
-  # Other scopes may use custom stacks.
-  # scope "/api", BambooInterviewWeb do
-  #   pipe_through :api
-  # end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:bamboo_interview, :dev_routes) do
